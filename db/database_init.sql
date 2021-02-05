@@ -10,5 +10,6 @@ CREATE TABLE IF NOT EXISTS latest_price (
   high_price FLOAT,
   low_price FLOAT,
   close_price FLOAT,
-  volume INTEGER 
+  volume INTEGER,
+  updated_date DATE,
 );

@@ -44,15 +44,15 @@ def write_meta(ticker, name, start_date):
         cursor.execute(query, (name, start_date, ticker))
     connection.commit()
 
-def write_latest_price(ticker, open_price, high_price, low_price, close_price, volume):
+def write_latest_price(ticker, open_price, high_price, low_price, close_price, volume, updated_date):
     # first check if ticker entry exists in table
     query = "SELECT ticker FROM latest_price WHERE ticker = %s"
     cursor.execute(query, (ticker,))
 
     if cursor.fetchone() is None:
         # insert new entry for ticker
-        query = "INSERT INTO latest_price VALUES (%s, %s, %s, %s, %s, %s)"
-        cursor.execute(query, (ticker, open_price, high_price, low_price, close_price, volume))
+        query = "INSERT INTO latest_price VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        cursor.execute(query, (ticker, open_price, high_price, low_price, close_price, volume, updated_date))
     else:
         # update entry for ticker
         query = """UPDATE latest_price SET
@@ -60,9 +60,10 @@ def write_latest_price(ticker, open_price, high_price, low_price, close_price, v
             high_price = %s,
             low_price = %s,
             close_price = %s,
-            volume = %s
+            volume = %s,
+            updated_date = %s
             WHERE ticker = %s"""
-        cursor.execute(query, (open_price, high_price, low_price, close_price, volume, ticker))
+        cursor.execute(query, (open_price, high_price, low_price, close_price, volume, updated_date, ticker))
     connection.commit()
 
 open_connection()
